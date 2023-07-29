@@ -57,7 +57,7 @@ const Signup = () => {
         <InputGroup>
           <Input
             type={show ? "text" : "password"}
-            placeholder="Enter Your Password Again"
+            placeholder="Confirm your password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <InputRightElement>
