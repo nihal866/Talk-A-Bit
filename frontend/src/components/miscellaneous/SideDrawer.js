@@ -7,15 +7,21 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem
+  MenuItem,
+  Avatar,
+  MenuDivider
 } from "@chakra-ui/react";
-import { BellIcon } from "@chakra-ui/icons";
+import Drop from "../icons/Drop";
+import Bell from "../icons/Bell";
+import { ChatState } from "../../Context/ChatProvider";
+import ProfileModal from "./ProfileModal";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState();
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
+  const { user } = ChatState();
   return (
     <Box
       display="flex"
@@ -37,18 +43,30 @@ const SideDrawer = () => {
       <Text fontSize="2xl" fontFamily="Work sans">
         Talk-A-Bit
       </Text>
-      <Menu>
-        <MenuButton p={1} as={Button}>
-          <BellIcon />
-        </MenuButton>
-        <MenuList>
-          <MenuItem>Download</MenuItem>
-          <MenuItem>Create a Copy</MenuItem>
-          <MenuItem>Mark as Draft</MenuItem>
-          <MenuItem>Delete</MenuItem>
-          <MenuItem>Attend a Workshop</MenuItem>
-        </MenuList>
-      </Menu>
+      <div>
+        <Menu>
+          <MenuButton p={1}>
+            <Bell fontSize="2xl" />
+          </MenuButton>
+        </Menu>
+        <Menu>
+          <MenuButton as={Button} rightIcon={<Drop />}>
+            <Avatar
+              size="sm"
+              cursor="pointer"
+              name={user.name}
+              src={user.pic}
+            />
+          </MenuButton>
+          <MenuList>
+            <ProfileModal user={user}>
+              <MenuItem>My profile</MenuItem>
+            </ProfileModal>
+            <MenuDivider />
+            <MenuItem>Log out</MenuItem>
+          </MenuList>
+        </Menu>
+      </div>
     </Box>
   );
 };
