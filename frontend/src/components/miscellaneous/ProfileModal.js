@@ -1,5 +1,4 @@
 import {
-  Button,
   IconButton,
   Image,
   Modal,
