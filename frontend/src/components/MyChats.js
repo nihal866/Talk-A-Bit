@@ -5,6 +5,7 @@ import axios from "axios";
 import Add from "./icons/Add";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../config/ChatLogics";
+import GroupChatModal from "./miscellaneous/GroupChatModal";
 
 const MyChats = () => {
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
@@ -21,7 +22,6 @@ const MyChats = () => {
       };
       
       const { data } = await axios.get("/api/chat", config);
-      console.log(data);
       setChats(data);
     } catch (error) {
       toast({
@@ -61,13 +61,15 @@ const MyChats = () => {
         alignItems="center"
       >
         My Chats
-        <Button
-          display="flex"
-          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-          rightIcon={<Add />}
-        >
-          New Group Chat
-        </Button>
+        <GroupChatModal>
+          <Button
+            display="flex"
+            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+            rightIcon={<Add />}
+          >
+            New Group Chat
+          </Button>
+        </GroupChatModal>
       </Box>
       <Box
         display="flex"
@@ -86,17 +88,19 @@ const MyChats = () => {
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
                 bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                color={selectedChat === chat ? 'white' : 'black'}
+                color={selectedChat === chat ? "white" : "black"}
                 px={3}
                 py={2}
-                borderRadius='lg'
+                borderRadius="lg"
                 key={chat._id}
               >
                 <Text>
-                  {!chat.isGroupChat ? getSender(loggedUser, chat.users) : chat.chatName}
+                  {!chat.isGroupChat
+                    ? getSender(loggedUser, chat.users)
+                    : chat.chatName}
                 </Text>
               </Box>
-        ))}
+            ))}
           </Stack>
         ) : (
           <ChatLoading />
